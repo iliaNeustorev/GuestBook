@@ -31552,7 +31552,7 @@ var render = function () {
       _c(
         "pagination",
         {
-          attrs: { data: _vm.laravelData, align: "center" },
+          attrs: { data: _vm.laravelData, align: "left" },
           on: { "pagination-change-page": _vm.getResults },
         },
         [

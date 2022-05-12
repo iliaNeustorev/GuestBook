@@ -35,7 +35,7 @@
         <pagination
             :data="laravelData"
             @pagination-change-page="getResults"
-            align="center"
+            align="left"
         >
             <span slot="prev-nav">&lt; </span>
             <span slot="next-nav"> &gt;</span>
