@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    protected function CheckIsAdmin () {
+    //return check on Admin
+
+    protected function CheckIsAdmin () : bool {
         $CheckIsAdmin = false;
         $roles = Auth::user()->roles;
         if($roles !== null){
@@ -18,6 +19,8 @@ class AdminController extends Controller
         }
          return $CheckIsAdmin;
     }
+
+    // return query with paginate and sortby
 
     protected function showUserMessages ()
     {
@@ -34,12 +37,22 @@ class AdminController extends Controller
         return $query->orderBy($sortColumn['column'], $sortColumn['direction'])->paginate($length);
     }
 
+    /*
+    delete message from admin interface
+    return Message all records
+    */
+
     protected function deleteMessage ()
     {
         $id = request('id');
         Message::find($id)->delete();
         return Message::get();
     }
+
+    /*
+    change Message from admin interface,
+    return Message all records
+    */
 
     protected function changeMessageUser (Request $request) 
     {
@@ -59,6 +72,10 @@ class AdminController extends Controller
         return Message::get();
     }
 
+    /*
+    export Model Message with all records in csv file,
+    return $url for downloadlink
+    */
     protected function exportMessages ()
     {
         $messages = Message::get()->toArray();
