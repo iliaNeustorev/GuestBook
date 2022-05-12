@@ -14,10 +14,14 @@ use Illuminate\Support\Facades\Mail;
 
 class MessageController extends Controller
 {
+     //return Message::ALL with parametrs format JSON
+
     public function getMessages ()
     {
         return Message::orderBy('created_at', 'ASC')->paginate(5);
     }
+
+    //return Message::ALL with parametrs format JSON
 
     public function submitMessage (Request $request)
     {
@@ -38,18 +42,20 @@ class MessageController extends Controller
         $message->message = $input['text'];
         $message->save();
 
-        $carbon = Carbon::now(new DateTimeZone('Europe/Moscow'));
-        $data = [
-            'user' => $author,
-            'message' => $input['text'],
-            'date' => $carbon,
-        ];
-
-        Mail::to('jjnn95555@gmail.com')->send(new NewMessage($data));
-
+        if($user->email != 'jjnn95555@gmail.com') {
+            $carbon = Carbon::now(new DateTimeZone('Europe/Moscow'));
+            $data = [
+                'user' => $author,
+                'message' => $input['text'],
+                'date' => $carbon,
+            ];
+            
+            Mail::to('jjnn95555@gmail.com')->send(new NewMessage($data));
+            }
         return Message::orderBy('created_at', 'ASC')->paginate(5);  
     }
 
+    //return Message::ALL with parametrs format JSON
     public function deleteMessage ()
     {
         $id = request('id');
@@ -67,6 +73,7 @@ class MessageController extends Controller
         return Message::orderBy('created_at', 'ASC')->paginate(5);
     }
 
+     //return Message::ALL with parametrs format JSON
     public function changeMessage (Request $request) 
     {
         
@@ -90,7 +97,7 @@ class MessageController extends Controller
 
         return Message::orderBy('created_at', 'ASC')->paginate(5);
     }
-
+    //return bool function check times
     protected function CheckTimesMesssage($date) : bool 
     {
         $checkingDate = $date;
